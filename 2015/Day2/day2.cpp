@@ -1,19 +1,6 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
-class Present{
-    int length;
-    int width;
-    int height;
-
-    Present( ) {
-
-    }
-};
+#include "present.h"
+#include <iostream> // cout
+#include <fstream> // fstream
 
 int main( int argc, char *argv[] ) {
     
@@ -26,16 +13,25 @@ int main( int argc, char *argv[] ) {
     fstream fileInput;
     fileInput.open( argv[1], ios::in );
 
-    vector<string> inputLines;
+    vector<string> inputList;
     string inputLine = "";
     while( getline( fileInput, inputLine ) ) {
-        inputLines.push_back( inputLine );
+        inputList.push_back( inputLine );
     }
     fileInput.close();
 
-    /***** Parse to get length, width, and height dimensions *****/
+    vector<Present> presentList;
+    int totalNeeded = 0;
+    for( vector<string>::iterator it = inputList.begin(); it != inputList.end(); ++it ) {
+        Present newPresent( *it );
+        newPresent.calculateSides();
+        newPresent.calculatePaperNeeded();
+        //cout << "smallest side: " << newPresent.smallestSide << " present needs: " << newPresent.paperNeeded << endl;
+        totalNeeded += newPresent.paperNeeded;
+        presentList.push_back( newPresent );
+    }
 
-
+    cout << "Total square feet: " << totalNeeded << endl;
 
     return 0;
 }
