@@ -21,17 +21,21 @@ int main( int argc, char *argv[] ) {
     fileInput.close();
 
     vector<Present> presentList;
-    int totalNeeded = 0;
+    int totalPaper = 0;
+    int totalRibbon = 0;
     for( vector<string>::iterator it = inputList.begin(); it != inputList.end(); ++it ) {
         Present newPresent( *it );
         newPresent.calculateSides();
         newPresent.calculatePaperNeeded();
-        //cout << "smallest side: " << newPresent.smallestSide << " present needs: " << newPresent.paperNeeded << endl;
-        totalNeeded += newPresent.paperNeeded;
+        newPresent.calcualteRibbon();
+        //cout << "smallest side: " << newPresent.smallestArea << " present needs: " << newPresent.paperNeeded << endl;
+        totalPaper += newPresent.paperNeeded;
+        totalRibbon += newPresent.ribbonNeeded;
         presentList.push_back( newPresent );
     }
 
-    cout << "Total square feet: " << totalNeeded << endl;
+    cout << "Total paper square feet: " << totalPaper << endl;
+    cout << "Total ribbon feet: " << totalRibbon << endl;
 
     return 0;
 }
