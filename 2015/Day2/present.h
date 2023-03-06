@@ -64,6 +64,7 @@ class Present {
         }
 
         if( height < smallestSide ) {
+            secondSmallest = smallestSide;
             smallestSide = height;
         } else if ( height < secondSmallest ) {
             secondSmallest = height;
