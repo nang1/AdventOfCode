@@ -1,7 +1,6 @@
+#include <algorithm> // unique, distance
 #include <iostream> // cout
 #include <fstream> // fstream
-// #include <sstream> // stringstream
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -11,11 +10,29 @@ class Coordinate {
     int x;
     int y;
 
+    Coordinate(){
+        x = 0;
+        y = 0;
+    }
+
     Coordinate(int givenX, int givenY){
         x = givenX;
         y = givenY;
     }
 };
+
+bool sortCoordinates( Coordinate one, Coordinate two ) {
+    if(one.x < two.x || (one.x==two.x && one.y < two.y))
+        return true;
+    return false;
+}
+
+bool compareCoordinates( Coordinate one, Coordinate two ) {
+    if(one.x == two.x && one.y == two.y)
+        return true;
+
+    return false;
+}
 
 int main( int argc, char *argv[] ) {
     
@@ -53,10 +70,20 @@ int main( int argc, char *argv[] ) {
     }
     fileInput.close();
 
-    // Remove duplicate coordinates
-    for( vector<Coordinate>::iterator it = inputList.begin(); it != inputList.end(); ++it ) {
-        Coordinate currentCoord( *it );
-    }
+    // Based the following on this example
+    // https://cplusplus.com/reference/algorithm/unique_copy/
+    
+    // Sort coordinates
+    sort(inputList.begin(), inputList.end(), sortCoordinates);
+    
+    // Remove duplicates
+    vector<Coordinate>::iterator it;
+    it = unique(inputList.begin(), inputList.end(), compareCoordinates);
+
+    // Resize vector to hold only the unique coordinates
+    inputList.resize(distance(inputList.begin(), it));
+    
+    cout << inputList.size() << endl;
 
     return 0;
 }
